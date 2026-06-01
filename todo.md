@@ -82,3 +82,19 @@
 - [ ] Crear checkpoint final
 - [ ] Preparar para publicación en Google Play Store
 - [ ] Documentar características principales
+
+## Nuevas Características Solicitadas
+- [ ] Generador de QR para Calendario (con fecha, hora y ubicación)
+- [ ] Integración con DateTimePicker para seleccionar fecha y hora
+- [ ] Validación de fechas y horas
+- [ ] Soporte para eventos recurrentes (opcional)
+
+## Características Avanzadas - Colores, Formatos y Dibujos
+- [x] Exportar QR en múltiples formatos (PNG, JPG, SVG)
+- [x] Paletas de colores predefinidas (Neon, Pastel, Monocromático, etc.)
+- [x] Agregar logo/imagen en el centro del QR
+- [x] Marcos decorativos alrededor del QR
+- [x] Patrones de fondo personalizados
+- [x] Esquinas redondeadas en el QR
+- [ ] Efectos de gradiente en colores
+- [x] Presets de estilos (Clásico, Moderno, Artístico)

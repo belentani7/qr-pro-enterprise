@@ -7,13 +7,13 @@ import * as Haptics from "expo-haptics";
 
 const QR_TYPES = [
   { id: "text", label: "Texto", icon: "mail", description: "Texto simple" },
+  { id: "text-advanced", label: "Avanzado", icon: "sparkles", description: "Con estilos" },
   { id: "url", label: "URL", icon: "link", description: "Enlace web" },
-  { id: "wifi", label: "Wi-Fi", icon: "router", description: "Red Wi-Fi" },
+  { id: "wifi", label: "Wi-Fi", icon: "qrcode", description: "Red Wi-Fi" },
   { id: "contact", label: "Contacto", icon: "person", description: "vCard" },
-  { id: "email", label: "Email", icon: "email", description: "Correo" },
-  { id: "sms", label: "SMS", icon: "sms", description: "Mensaje" },
+  { id: "email", label: "Email", icon: "mail", description: "Correo" },
+  { id: "sms", label: "SMS", icon: "paperplane.fill", description: "Mensaje" },
   { id: "phone", label: "Teléfono", icon: "phone", description: "Llamada" },
-  { id: "calendar", label: "Calendario", icon: "event", description: "Evento" },
 ];
 
 export default function GeneratorScreen() {
@@ -22,8 +22,19 @@ export default function GeneratorScreen() {
 
   const handleTypeSelect = async (typeId: string) => {
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    // TODO: Navegar a pantalla de generador con tipo seleccionado
-    // router.push(`/generator/${typeId}`);
+    const routeMap: { [key: string]: any } = {
+      text: "/generator-text",
+      "text-advanced": "/generator-text-advanced",
+      url: "/generator-url",
+      wifi: "/generator-wifi",
+      contact: "/generator-contact",
+      email: "/generator-email",
+      sms: "/generator-sms",
+      phone: "/generator-phone",
+    };
+    if (routeMap[typeId]) {
+      router.push(routeMap[typeId] as any);
+    }
   };
 
   return (
