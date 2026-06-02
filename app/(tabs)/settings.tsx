@@ -1,5 +1,6 @@
 import { Text, View, ScrollView, TouchableOpacity, Switch } from "react-native";
 import { useState } from "react";
+import { useRouter } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { useColorScheme } from "@/hooks/use-color-scheme";
@@ -7,6 +8,7 @@ import { IconSymbol } from "@/components/ui/icon-symbol";
 import * as Haptics from "expo-haptics";
 
 export default function SettingsScreen() {
+  const router = useRouter();
   const colors = useColors();
   const colorScheme = useColorScheme();
   const [theme, setTheme] = useState<"light" | "dark" | "auto">(colorScheme === "dark" ? "dark" : "light");
@@ -127,6 +129,18 @@ export default function SettingsScreen() {
             label="Tamaño por defecto"
             description="Dimensiones de QR"
             icon="qrcode"
+          />
+        </View>
+
+        {/* Security & Privacy Section */}
+        <View className="mb-6">
+          <Text className="text-foreground font-semibold text-sm mb-3">Seguridad y Privacidad</Text>
+
+          <SettingRow
+            label="Privacidad y Seguridad"
+            description="GDPR, encriptación, derechos del usuario"
+            icon="lock.fill"
+            onPress={() => router.push("/privacy-settings")}
           />
         </View>
 

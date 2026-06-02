@@ -98,3 +98,35 @@
 - [x] Esquinas redondeadas en el QR
 - [ ] Efectos de gradiente en colores
 - [x] Presets de estilos (Clásico, Moderno, Artístico)
+
+## Características de Dibujos y Formas Atractivas
+- [x] Generador de QR con formas geométricas (cuadrados, círculos, diamantes)
+- [x] Patrones decorativos (flores, estrellas, copos de nieve)
+- [ ] Marcos artísticos (vintage, moderno, minimalista)
+- [ ] Gradientes y efectos de color
+- [ ] Iconos personalizados en el centro
+- [ ] Animaciones de generación
+
+## Procesos en Segundo Plano
+- [ ] Generación de QR en background thread
+- [ ] Caché de QR generados
+- [ ] Sincronización de historial en background
+- [ ] Notificaciones de descarga completada
+- [x] Procesamiento de imágenes optimizado
+
+## Protección de Código y Originalidad
+- [x] Encriptación de datos locales (AsyncStorage)
+- [x] Hash único para cada QR generado
+- [x] Watermark invisible en QR
+- [x] Protección contra copia de datos
+- [x] Validación de integridad de QR
+
+## Cumplimiento de Seguridad Europea (GDPR/RGPD)
+- [x] Política de privacidad integrada
+- [x] Consentimiento de datos explícito
+- [x] Opción de eliminar todos los datos
+- [x] No recopilar datos personales innecesarios
+- [x] Encriptación de datos en tránsito
+- [x] Derecho al olvido (borrar historial)
+- [x] Transparencia en recopilación de datos
+- [x] Auditoría de seguridad local
