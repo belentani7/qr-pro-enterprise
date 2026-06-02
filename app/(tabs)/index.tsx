@@ -14,6 +14,7 @@ const QR_TYPES = [
   { id: "email", label: "Email", icon: "mail", description: "Correo" },
   { id: "sms", label: "SMS", icon: "paperplane.fill", description: "Mensaje" },
   { id: "phone", label: "Teléfono", icon: "phone", description: "Llamada" },
+  { id: "shape", label: "Forma", icon: "square.grid.2x2", description: "Con forma" },
 ];
 
 export default function GeneratorScreen() {
@@ -31,6 +32,7 @@ export default function GeneratorScreen() {
       email: "/generator-email",
       sms: "/generator-sms",
       phone: "/generator-phone",
+      shape: "/generator-shape-qr",
     };
     if (routeMap[typeId]) {
       router.push(routeMap[typeId] as any);

@@ -130,3 +130,30 @@
 - [x] Derecho al olvido (borrar historial)
 - [x] Transparencia en recopilación de datos
 - [x] Auditoría de seguridad local
+
+## QR con Formas Personalizadas (Animales, Objetos, Letras, Símbolos)
+- [x] Generador de QR con forma de animal (perro, gato, pájaro, etc.)
+- [x] Generador de QR con forma de objeto (corazón, estrella, círculo, etc.)
+- [x] Generador de QR con forma de letra o número personalizado
+- [x] Generador de QR con símbolo personalizado
+- [x] Selector de formas predefinidas (10+ opciones)
+- [x] Generador de formas por descripción de texto (IA)
+- [x] Carga de foto personalizada para generar forma
+
+## QR Invisible en Imagen
+- [x] Carga de imagen común (foto, ilustración, etc.)
+- [x] Incrustación de QR invisible en imagen
+- [x] Ajuste de opacidad del QR (0-100%)
+- [x] Posicionamiento del QR en la imagen
+- [x] Técnica de esteganografía (LSB - Least Significant Bit)
+- [x] Preservación de calidad de imagen original
+- [ ] Extracción de QR invisible desde imagen
+- [ ] Validación de QR incrustado
+
+## Procesamiento de Imágenes Avanzado
+- [x] Redimensionamiento inteligente de imagen
+- [x] Compresión sin pérdida
+- [x] Ajuste de contraste y brillo
+- [x] Filtros de imagen (blanco/negro, sepia, etc.)
+- [x] Detección de bordes para mejor incrustación
+- [x] Análisis de histograma de imagen
