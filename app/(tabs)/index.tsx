@@ -1,54 +1,51 @@
-import { ScrollView, Text, View, TextInput, TouchableOpacity, Alert, Pressable } from "react-native";
+import { ScrollView, Text, View, TextInput, TouchableOpacity, Alert, Image } from "react-native";
 import { useState } from "react";
-import { useRouter } from "expo-router";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import { QRDisplay } from "@/components/qr-display";
-import { useQRGenerator } from "@/hooks/use-qr-generator";
 import * as Haptics from "expo-haptics";
 import * as Sharing from "expo-sharing";
+import { generateQRUrl, COLOR_PRESETS, SIZE_PRESETS, validateQRContent } from "@/lib/qr-server-service";
 
 export default function GeneratorScreen() {
-  const router = useRouter();
   const colors = useColors();
-  const { generateQR, loading, error } = useQRGenerator();
 
   const [content, setContent] = useState("");
-  const [qrData, setQrData] = useState<string | undefined>(undefined);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [qrUrl, setQrUrl] = useState<string | null>(null);
+  const [selectedColor, setSelectedColor] = useState("classic");
+  const [selectedSize, setSelectedSize] = useState("medium");
 
   const handleGenerateQR = async () => {
-    if (!content.trim()) {
-      Alert.alert("Error", "Ingresa un link o texto");
+    if (!validateQRContent(content)) {
+      Alert.alert("Error", "Ingresa un link o texto válido (máx 2953 caracteres)");
       return;
     }
 
     await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
     try {
-      const result = await generateQR(content, {
-        width: 300,
-        color: {
-          dark: "#000000",
-          light: "#FFFFFF",
-        },
+      const colorPreset = COLOR_PRESETS[selectedColor as keyof typeof COLOR_PRESETS];
+      const size = SIZE_PRESETS[selectedSize as keyof typeof SIZE_PRESETS];
+
+      const url = generateQRUrl(content, {
+        size,
+        darkColor: colorPreset.dark,
+        lightColor: colorPreset.light,
+        format: "png",
       });
 
-      if (result) {
-        setQrData(result.dataUrl);
-      }
+      setQrUrl(url);
     } catch (err) {
       Alert.alert("Error", "No se pudo generar el QR");
     }
   };
 
   const handleShare = async () => {
-    if (!qrData) return;
+    if (!qrUrl) return;
 
     try {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      await Sharing.shareAsync(qrData, {
+      await Sharing.shareAsync(qrUrl, {
         mimeType: "image/png",
         dialogTitle: "Compartir QR",
       });
@@ -59,8 +56,9 @@ export default function GeneratorScreen() {
 
   const handleClear = () => {
     setContent("");
-    setQrData(undefined);
-    setIsFavorite(false);
+    setQrUrl(null);
+    setSelectedColor("classic");
+    setSelectedSize("medium");
   };
 
   return (
@@ -69,7 +67,7 @@ export default function GeneratorScreen() {
         {/* Header */}
         <View className="mb-8">
           <Text className="text-4xl font-bold text-foreground mb-2">QR Pro</Text>
-          <Text className="text-base text-muted">Generador de códigos QR</Text>
+          <Text className="text-base text-muted">Generador de códigos QR personalizados</Text>
         </View>
 
         {/* Input Section */}
@@ -94,36 +92,95 @@ export default function GeneratorScreen() {
           />
         </View>
 
+        {/* Color Selector */}
+        <View className="mb-6">
+          <Text className="text-foreground font-semibold text-sm mb-3">Color</Text>
+          <View className="flex-row flex-wrap gap-2">
+            {Object.entries(COLOR_PRESETS).map(([key, value]) => (
+              <TouchableOpacity
+                key={key}
+                onPress={() => {
+                  setSelectedColor(key);
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                }}
+                style={{
+                  backgroundColor: value.dark === "000000" ? "#000000" : `#${value.dark}`,
+                  borderColor: selectedColor === key ? colors.primary : colors.border,
+                  borderWidth: selectedColor === key ? 3 : 1,
+                }}
+                className="w-12 h-12 rounded-lg items-center justify-center"
+              >
+                {selectedColor === key && (
+                  <IconSymbol name="checkmark" size={20} color="white" />
+                )}
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        {/* Size Selector */}
+        <View className="mb-6">
+          <Text className="text-foreground font-semibold text-sm mb-3">Tamaño</Text>
+          <View className="flex-row gap-2">
+            {Object.entries(SIZE_PRESETS).map(([key]) => (
+              <TouchableOpacity
+                key={key}
+                onPress={() => {
+                  setSelectedSize(key);
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                }}
+                style={{
+                  backgroundColor:
+                    selectedSize === key ? colors.primary : colors.surface,
+                  borderColor: colors.border,
+                  borderWidth: 1,
+                }}
+                className="flex-1 py-2 rounded-lg items-center"
+              >
+                <Text
+                  style={{
+                    color: selectedSize === key ? "white" : colors.foreground,
+                  }}
+                  className="font-semibold text-xs capitalize"
+                >
+                  {key}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
         {/* Generate Button */}
-        {!qrData && (
+        {!qrUrl && (
           <TouchableOpacity
             onPress={handleGenerateQR}
-            disabled={loading || !content.trim()}
+            disabled={!content.trim()}
             style={{
               backgroundColor: colors.primary,
-              opacity: loading || !content.trim() ? 0.5 : 1,
+              opacity: !content.trim() ? 0.5 : 1,
             }}
             className="py-4 rounded-xl items-center mb-6 active:opacity-80"
           >
-            <Text className="text-white font-semibold text-base">
-              {loading ? "Generando..." : "Generar QR"}
-            </Text>
+            <Text className="text-white font-semibold text-base">Generar QR</Text>
           </TouchableOpacity>
         )}
 
         {/* QR Preview */}
-        {qrData && (
+        {qrUrl && (
           <View className="mb-6 items-center gap-4">
-            <QRDisplay
-              dataUrl={qrData}
-              loading={loading}
-              error={error}
-              onDownload={() => Alert.alert("Descargado", "QR guardado")}
-              onShare={handleShare}
-              onFavorite={() => setIsFavorite(!isFavorite)}
-              isFavorite={isFavorite}
-              size={250}
-            />
+            <View
+              style={{
+                backgroundColor: colors.surface,
+                borderColor: colors.border,
+                borderWidth: 1,
+              }}
+              className="p-4 rounded-2xl"
+            >
+              <Image
+                source={{ uri: qrUrl }}
+                style={{ width: 250, height: 250 }}
+              />
+            </View>
 
             {/* Action Buttons */}
             <View className="flex-row gap-3 w-full">
@@ -147,6 +204,19 @@ export default function GeneratorScreen() {
                 <Text className="text-foreground font-semibold">Limpiar</Text>
               </TouchableOpacity>
             </View>
+
+            {/* Download Link */}
+            <TouchableOpacity
+              onPress={() => {
+                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                Alert.alert("Descargar", "Abre este enlace en tu navegador:\n" + qrUrl);
+              }}
+              className="py-2"
+            >
+              <Text className="text-primary font-semibold text-sm">
+                Descargar QR
+              </Text>
+            </TouchableOpacity>
           </View>
         )}
 
@@ -155,8 +225,9 @@ export default function GeneratorScreen() {
           <Text className="text-foreground font-semibold text-sm">ℹ️ Cómo usar</Text>
           <Text className="text-muted text-xs leading-relaxed">
             1. Ingresa tu link o texto{"\n"}
-            2. Toca "Generar QR"{"\n"}
-            3. Comparte o descarga el código
+            2. Elige color y tamaño{"\n"}
+            3. Toca "Generar QR"{"\n"}
+            4. Comparte o descarga
           </Text>
         </View>
       </ScrollView>
