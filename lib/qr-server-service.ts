@@ -31,6 +31,12 @@ export function generateQRUrl(content: string, options: QROptions = {}): string 
   return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodedContent}&color=${darkColor}&bgcolor=${lightColor}&margin=${margin}&format=${format}`;
 }
 
+export function generateQRBackupUrl(content: string, options: QROptions = {}): string {
+  const size = options.size || 300;
+  const encodedContent = encodeURIComponent(content);
+  return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodedContent}`;
+}
+
 /**
  * Generar QR con logo (requiere procesamiento adicional)
  */
