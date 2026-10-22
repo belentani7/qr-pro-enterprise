@@ -2,7 +2,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 /**
  * Servicio de seguridad y privacidad para cumplimiento GDPR/RGPD
- * Encriptación de datos locales, hash de QR, y gestión de consentimiento
+ * Datos locales, sumas de comprobación no criptográficas y consentimiento.
+ * No implementa cifrado autenticado ni marcas de agua reales.
  */
 
 export interface SecurityPolicy {
@@ -21,7 +22,6 @@ export interface QRMetadata {
   watermark: string;
 }
 
-const SECURITY_STORAGE_KEY = "@qr_pro_security";
 const CONSENT_STORAGE_KEY = "@qr_pro_consent";
 const QR_STORAGE_KEYS = new Set(["qr_history", "qr_favorites"]);
 const ownsQRStorageKey = (key: string): boolean =>
@@ -82,7 +82,7 @@ export async function updateGDPRConsent(consent: boolean): Promise<void> {
 }
 
 /**
- * Generar hash único para QR (protección de originalidad)
+ * Calcular una suma de comprobación estable; no prueba originalidad ni autoría.
  */
 export async function generateQRHash(content: string): Promise<string> {
   try {
@@ -101,7 +101,7 @@ export async function generateQRHash(content: string): Promise<string> {
 }
 
 /**
- * Generar watermark invisible para QR
+ * Generar únicamente una etiqueta de metadatos, NO una marca incrustada.
  */
 export async function generateWatermark(): Promise<string> {
   try {
@@ -116,7 +116,7 @@ export async function generateWatermark(): Promise<string> {
 }
 
 /**
- * Crear metadata de QR con protección
+ * Crear metadatos de QR sin afirmar cifrado ni integridad autenticada.
  */
 export async function createQRMetadata(content: string): Promise<QRMetadata> {
   const hash = await generateQRHash(content);
@@ -131,18 +131,10 @@ export async function createQRMetadata(content: string): Promise<QRMetadata> {
   };
 }
 
-/**
- * Encriptar datos locales (AsyncStorage)
- */
-export async function encryptData(data: any): Promise<string> {
-  try {
-    // A non-cryptographic checksum must never be presented as ciphertext.
-    // Use an audited native encryption provider before exposing this API.
-    throw new Error("Encriptación de contenido no disponible. No se han cifrado los datos.");
-  } catch (error) {
-    console.error("Error encrypting data:", error);
-    throw error;
-  }
+/** Explicitly refuse fake encryption until real, audited crypto is available. */
+export async function encryptData(data: unknown): Promise<string> {
+  void data;
+  throw new Error("Encriptación de contenido no disponible. No se han cifrado los datos.");
 }
 
 /**
@@ -207,7 +199,8 @@ export async function getDataSummary(): Promise<{
       totalQRScanned: history.filter(item => item.type === "scanned").length,
       storageSize: `${storageSizeKB} KB`,
       lastModified: timestamps.length
-        ? new Date(Math.max(...timestamps)).toISOString() : "Sin historial",
+        ? new Date(timestamps.reduce((max, next) => Math.max(max, next), 0)).toISOString()
+        : "Sin historial",
     };
   } catch (error) {
     console.error("Error getting data summary:", error);
@@ -240,7 +233,7 @@ export async function generateSecurityReport(): Promise<string> {
 === REPORTE DE SEGURIDAD Y PRIVACIDAD ===
 Fecha: ${new Date().toISOString()}
 
-CUMPLIMIENTO GDPR/RGPD:
+PREFERENCIAS LOCALES DE PRIVACIDAD (NO CERTIFICACIÓN RGPD):
 - Consentimiento GDPR: ${policy?.gdprConsent ? "✓ Aceptado" : "✗ Rechazado"}
 - Recopilación de Datos: ${policy?.dataCollectionConsent ? "✓ Aceptado" : "✗ Rechazado"}
 - Analytics: ${policy?.analyticsConsent ? "✓ Aceptado" : "✗ Rechazado"}
