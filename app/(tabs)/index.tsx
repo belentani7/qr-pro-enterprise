@@ -1,10 +1,9 @@
-import { ScrollView, Text, View, TextInput, TouchableOpacity, Alert, Image } from "react-native";
+import { ScrollView, Text, View, TextInput, TouchableOpacity, Alert, Image, Share, Switch } from "react-native";
 import { useState } from "react";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import * as Haptics from "expo-haptics";
-import * as Sharing from "expo-sharing";
 import { generateQRUrl, COLOR_PRESETS, SIZE_PRESETS, validateQRContent } from "@/lib/qr-server-service";
 
 export default function GeneratorScreen() {
@@ -14,8 +13,13 @@ export default function GeneratorScreen() {
   const [qrUrl, setQrUrl] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState("classic");
   const [selectedSize, setSelectedSize] = useState("medium");
+  const [remoteConsent, setRemoteConsent] = useState(false);
 
   const handleGenerateQR = async () => {
+    if (!remoteConsent) {
+      Alert.alert("Privacidad", "Confirma primero que aceptas enviar este contenido al servicio externo QR Server.");
+      return;
+    }
     if (!validateQRContent(content)) {
       Alert.alert("Error", "Ingresa un link o texto válido (máx 2953 caracteres)");
       return;
@@ -45,10 +49,9 @@ export default function GeneratorScreen() {
 
     try {
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-      await Sharing.shareAsync(qrUrl, {
-        mimeType: "image/png",
-        dialogTitle: "Compartir QR",
-      });
+      // QR Server returns an HTTPS image URL, not a local file URI.
+      // Sharing.shareAsync cannot reliably share a remote URL as an image.
+      await Share.share({ message: "Enlace para ver el código QR: " + qrUrl });
     } catch (err) {
       console.error("Error compartiendo:", err);
     }
@@ -59,6 +62,7 @@ export default function GeneratorScreen() {
     setQrUrl(null);
     setSelectedColor("classic");
     setSelectedSize("medium");
+    setRemoteConsent(false);
   };
 
   return (
@@ -150,14 +154,27 @@ export default function GeneratorScreen() {
           </View>
         </View>
 
+        <View className="mb-5 flex-row items-center gap-3 rounded-xl border border-border bg-surface p-4">
+          <Switch
+            accessibilityLabel="Autorizo enviar mi texto al servicio externo QR Server"
+            value={remoteConsent}
+            onValueChange={setRemoteConsent}
+          />
+          <Text className="flex-1 text-xs leading-relaxed text-muted">
+            Este generador utiliza QR Server, un servicio externo. Al generar,
+            el texto o enlace se envía a su servidor. No introduzcas contraseñas,
+            datos médicos ni información privada. Debes autorizar este envío.
+          </Text>
+        </View>
+
         {/* Generate Button */}
         {!qrUrl && (
           <TouchableOpacity
             onPress={handleGenerateQR}
-            disabled={!content.trim()}
+            disabled={!content.trim() || !remoteConsent}
             style={{
               backgroundColor: colors.primary,
-              opacity: !content.trim() ? 0.5 : 1,
+              opacity: !content.trim() || !remoteConsent ? 0.5 : 1,
             }}
             className="py-4 rounded-xl items-center mb-6 active:opacity-80"
           >
@@ -189,7 +206,7 @@ export default function GeneratorScreen() {
                 style={{ backgroundColor: colors.primary }}
                 className="flex-1 py-3 rounded-lg items-center active:opacity-80"
               >
-                <Text className="text-white font-semibold">Compartir</Text>
+                <Text className="text-white font-semibold">Compartir enlace</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -209,12 +226,12 @@ export default function GeneratorScreen() {
             <TouchableOpacity
               onPress={() => {
                 Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-                Alert.alert("Descargar", "Abre este enlace en tu navegador:\n" + qrUrl);
+                Alert.alert("Imagen QR externa", "Abre el enlace de QR Server en tu navegador para ver o guardar la imagen:\n" + qrUrl);
               }}
               className="py-2"
             >
               <Text className="text-primary font-semibold text-sm">
-                Descargar QR
+                Ver imagen QR externa
               </Text>
             </TouchableOpacity>
           </View>
