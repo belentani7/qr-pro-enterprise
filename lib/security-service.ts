@@ -23,7 +23,9 @@ export interface QRMetadata {
 
 const SECURITY_STORAGE_KEY = "@qr_pro_security";
 const CONSENT_STORAGE_KEY = "@qr_pro_consent";
-const ENCRYPTION_KEY = "qr_pro_security_v1";
+const QR_STORAGE_KEYS = new Set(["qr_history", "qr_favorites"]);
+const ownsQRStorageKey = (key: string): boolean =>
+  key.startsWith("@qr_pro") || QR_STORAGE_KEYS.has(key);
 
 /**
  * Inicializar política de seguridad
@@ -84,16 +86,14 @@ export async function updateGDPRConsent(consent: boolean): Promise<void> {
  */
 export async function generateQRHash(content: string): Promise<string> {
   try {
-    const timestamp = Date.now().toString();
-    const combined = `${content}${timestamp}${ENCRYPTION_KEY}`;
-    // Generar hash simple usando caracteres del string
-    let hash = 0;
-    for (let i = 0; i < combined.length; i++) {
-      const char = combined.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; // Convertir a 32-bit integer
+    // Stable FNV-1a checksum. This detects accidental content changes only:
+    // it is NOT encryption, authentication or tamper-resistant proof.
+    let hash = 0x811c9dc5;
+    for (let i = 0; i < content.length; i++) {
+      hash ^= content.charCodeAt(i);
+      hash = Math.imul(hash, 0x01000193) >>> 0;
     }
-    return Math.abs(hash).toString(16).substring(0, 16);
+    return "fnv1a32:" + hash.toString(16).padStart(8, "0");
   } catch (error) {
     console.error("Error generating QR hash:", error);
     throw error;
@@ -107,14 +107,8 @@ export async function generateWatermark(): Promise<string> {
   try {
     const timestamp = Date.now().toString();
     const random = Math.random().toString(36).substring(2, 15);
-    const combined = `${timestamp}${random}${ENCRYPTION_KEY}`;
-    let hash = 0;
-    for (let i = 0; i < combined.length; i++) {
-      const char = combined.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash;
-    }
-    return Math.abs(hash).toString(16).substring(0, 12);
+    // Non-secret metadata label only; no pixel-level watermark is applied.
+    return `${timestamp}-${random}`;
   } catch (error) {
     console.error("Error generating watermark:", error);
     throw error;
@@ -132,7 +126,7 @@ export async function createQRMetadata(content: string): Promise<QRMetadata> {
     id: `qr_${Date.now()}_${Math.random().toString(36).substring(7)}`,
     hash,
     timestamp: Date.now(),
-    encrypted: true,
+    encrypted: false, // QR content is not encrypted by this module.
     watermark,
   };
 }
@@ -142,15 +136,9 @@ export async function createQRMetadata(content: string): Promise<QRMetadata> {
  */
 export async function encryptData(data: any): Promise<string> {
   try {
-    const jsonString = JSON.stringify(data);
-    const combined = jsonString + ENCRYPTION_KEY;
-    let hash = 0;
-    for (let i = 0; i < combined.length; i++) {
-      const char = combined.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash;
-    }
-    return Math.abs(hash).toString(16);
+    // A non-cryptographic checksum must never be presented as ciphertext.
+    // Use an audited native encryption provider before exposing this API.
+    throw new Error("Encriptación de contenido no disponible. No se han cifrado los datos.");
   } catch (error) {
     console.error("Error encrypting data:", error);
     throw error;
@@ -163,9 +151,9 @@ export async function encryptData(data: any): Promise<string> {
 export async function deleteAllUserData(): Promise<void> {
   try {
     const keys = await AsyncStorage.getAllKeys();
-    const qrProKeys = keys.filter((key) => key.startsWith("@qr_pro"));
+    const qrProKeys = keys.filter(ownsQRStorageKey);
     await AsyncStorage.multiRemove(qrProKeys);
-    console.log("All user data deleted (GDPR right to be forgotten)");
+    // Includes qr_history and qr_favorites, not only consent preferences.
   } catch (error) {
     console.error("Error deleting user data:", error);
     throw error;
@@ -183,7 +171,7 @@ export async function getDataSummary(): Promise<{
 }> {
   try {
     const keys = await AsyncStorage.getAllKeys();
-    const qrProKeys = keys.filter((key) => key.startsWith("@qr_pro"));
+    const qrProKeys = keys.filter(ownsQRStorageKey);
 
     let totalSize = 0;
     for (const key of qrProKeys) {
@@ -195,11 +183,31 @@ export async function getDataSummary(): Promise<{
 
     const storageSizeKB = (totalSize / 1024).toFixed(2);
 
+    // Count the same history the user sees in the app. Do not make up zero
+    // counts when actual stored records exist.
+    let history: Array<{ type?: unknown; timestamp?: unknown }> = [];
+    try {
+      const raw = await AsyncStorage.getItem("qr_history");
+      if (raw) {
+        const parsed: unknown = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          history = parsed.filter((entry): entry is { type?: unknown; timestamp?: unknown } =>
+            typeof entry === "object" && entry !== null && !Array.isArray(entry));
+        }
+      }
+    } catch {
+      // Corrupt history should not prevent display of data size and controls.
+    }
+    const timestamps = history
+      .map(item => item.timestamp)
+      .filter((value): value is number =>
+        typeof value === "number" && Number.isFinite(value) && value > 0 && value <= Date.now());
     return {
-      totalQRGenerated: 0, // Será actualizado por el app
-      totalQRScanned: 0, // Será actualizado por el app
+      totalQRGenerated: history.filter(item => item.type === "generated").length,
+      totalQRScanned: history.filter(item => item.type === "scanned").length,
       storageSize: `${storageSizeKB} KB`,
-      lastModified: new Date().toISOString(),
+      lastModified: timestamps.length
+        ? new Date(Math.max(...timestamps)).toISOString() : "Sin historial",
     };
   } catch (error) {
     console.error("Error getting data summary:", error);
@@ -244,10 +252,10 @@ DATOS DEL USUARIO:
 - Tamaño de Almacenamiento: ${summary.storageSize}
 
 PROTECCIÓN:
-- Encriptación Local: ✓ Habilitada
-- Hash de Integridad: ✓ Habilitado
-- Watermark Invisible: ✓ Habilitado
-- Protocolo de Seguridad: TLS 1.3+
+- Cifrado del contenido QR por esta aplicación: NO IMPLEMENTADO
+- Suma de comprobación local: disponible; no prueba autenticidad
+- Marca de agua invisible dentro de imágenes: NO IMPLEMENTADA
+- TLS: depende del alojamiento y del proveedor de conexión
 
 DERECHOS DEL USUARIO:
 - Derecho al Olvido: Disponible
