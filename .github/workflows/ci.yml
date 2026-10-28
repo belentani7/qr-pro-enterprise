@@ -21,6 +21,12 @@ jobs:
             mv pnpm-workspace.yaml pnpm-workspace.yaml.disabled
           fi
       - run: pnpm install --no-frozen-lockfile
+      - name: Run complete Vitest suite
+        run: pnpm test
+      - name: TypeScript typecheck
+        run: pnpm check
+      - name: Expo lint
+        run: pnpm lint
       - name: detect build script
         id: buildscript
         run: |
