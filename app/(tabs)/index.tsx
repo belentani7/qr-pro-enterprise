@@ -243,8 +243,8 @@ export default function GeneratorScreen() {
           <Text className="text-muted text-xs leading-relaxed">
             1. Ingresa tu link o texto{"\n"}
             2. Elige color y tamaño{"\n"}
-            3. Toca "Generar QR"{"\n"}
-            4. Comparte o descarga
+            3. Toca Generar QR{"\n"}
+            4. Comparte el enlace o abre la imagen externa
           </Text>
         </View>
       </ScrollView>
