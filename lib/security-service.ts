@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 /**
- * Servicio de seguridad y privacidad para cumplimiento GDPR/RGPD
+ * Servicio de preferencias de privacidad locales; no certifica cumplimiento RGPD
  * Datos locales, sumas de comprobación no criptográficas y consentimiento.
  * No implementa cifrado autenticado ni marcas de agua reales.
  */
@@ -67,7 +67,7 @@ export async function getSecurityPolicy(): Promise<SecurityPolicy | null> {
 }
 
 /**
- * Actualizar consentimiento GDPR
+ * Actualizar preferencia local (independiente de QR Server)
  */
 export async function updateGDPRConsent(consent: boolean): Promise<void> {
   try {
@@ -234,7 +234,7 @@ export async function generateSecurityReport(): Promise<string> {
 Fecha: ${new Date().toISOString()}
 
 PREFERENCIAS LOCALES DE PRIVACIDAD (NO CERTIFICACIÓN RGPD):
-- Consentimiento GDPR: ${policy?.gdprConsent ? "✓ Aceptado" : "✗ Rechazado"}
+- Preferencia local de privacidad: ${policy?.gdprConsent ? "✓ Activada" : "✗ Desactivada"}
 - Recopilación de Datos: ${policy?.dataCollectionConsent ? "✓ Aceptado" : "✗ Rechazado"}
 - Analytics: ${policy?.analyticsConsent ? "✓ Aceptado" : "✗ Rechazado"}
 - Última actualización: ${policy?.lastConsentDate}
@@ -250,11 +250,11 @@ PROTECCIÓN:
 - Marca de agua invisible dentro de imágenes: NO IMPLEMENTADA
 - TLS: depende del alojamiento y del proveedor de conexión
 
-DERECHOS DEL USUARIO:
-- Derecho al Olvido: Disponible
-- Portabilidad de Datos: Disponible
-- Acceso a Datos: Disponible
-- Rectificación: Disponible
+OPCIONES LOCALES:
+- Borrado de datos de esta aplicación: disponible en este dispositivo
+- Borrado de datos enviados a QR Server: NO DISPONIBLE desde esta aplicación
+- Exportación de datos: NO IMPLEMENTADA en esta pantalla
+- Cumplimiento normativo: NO CERTIFICADO
     `;
 
     return report;
