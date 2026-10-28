@@ -70,7 +70,7 @@ describe("QR Pro privacy and integrity claims", () => {
   });
 
   it("shows honest third-party and encryption disclosures in the privacy screen", () => {
-    const screen = readFileSync(new URL("../app/privacy-settings.tsx", import.meta.url), "utf8");
+    const screen = readFileSync("app/privacy-settings.tsx", "utf8");
     expect(screen).toContain("QR Server");
     expect(screen).toContain("sin cifrado");
     expect(screen).toContain("no certifica cumplimiento RGPD");
