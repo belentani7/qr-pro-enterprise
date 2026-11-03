@@ -64,3 +64,38 @@ Thumbs.db
 # Webdev artifacts (checkpoint zips, migrations, etc.)
 .webdev/
 .project-config.json
+
+# secretos — añadido por la auditoría; revisar y ajustar
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+id_rsa
+id_ed25519
+.secrets
+secrets.json
+
+# secretos — añadido por la auditoría; revisar y ajustar
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+id_rsa
+id_ed25519
+.secrets
+secrets.json
+.npmrc
+.pypirc
+.user_env
