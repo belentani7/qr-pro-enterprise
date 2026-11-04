@@ -47,7 +47,7 @@ export default function PrivacySettingsScreen() {
   const handleDeleteAllData = () => {
     Alert.alert(
       "Eliminar todos los datos",
-      "Esta acción eliminará permanentemente todos tus QR, historial y favoritos. No se puede deshacer.",
+      "Se borrarán los datos locales de QR Pro en este dispositivo. No se eliminan datos ya enviados a QR Server. No se puede deshacer.",
       [
         { text: "Cancelar", onPress: () => {} },
         {
@@ -56,7 +56,7 @@ export default function PrivacySettingsScreen() {
             try {
               await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
               await deleteAllUserData();
-              Alert.alert("Éxito", "Todos tus datos han sido eliminados (Derecho al olvido GDPR)");
+              Alert.alert("Éxito", "Se borraron los datos locales de QR Pro. La app no puede borrar los datos ya enviados a QR Server.");
               setPolicy(null);
             } catch (error) {
               Alert.alert("Error", "No se pudo eliminar los datos");
@@ -101,14 +101,14 @@ export default function PrivacySettingsScreen() {
 
         {/* GDPR Section */}
         <View className="mb-6 bg-surface rounded-2xl p-4 border border-border gap-4">
-          <Text className="text-lg font-bold text-foreground">Cumplimiento GDPR/RGPD</Text>
+          <Text className="text-lg font-bold text-foreground">Preferencias de privacidad</Text>
 
           <View className="gap-3">
             <View className="flex-row items-center justify-between">
               <View className="flex-1">
-                <Text className="text-foreground font-semibold">Consentimiento GDPR</Text>
+                <Text className="text-foreground font-semibold">Preferencia local de privacidad</Text>
                 <Text className="text-muted text-xs mt-1">
-                  Acepta nuestro cumplimiento con regulaciones europeas
+                  Este ajuste no certifica cumplimiento RGPD ni autoriza envíos a QR Server.
                 </Text>
               </View>
               <Switch
@@ -120,25 +120,25 @@ export default function PrivacySettingsScreen() {
 
             <View className="flex-row items-center justify-between">
               <View className="flex-1">
-                <Text className="text-foreground font-semibold">Recopilación de Datos</Text>
+                <Text className="text-foreground font-semibold">Generación con proveedor externo</Text>
                 <Text className="text-muted text-xs mt-1">
-                  Solo datos locales, sin envío a servidores
+                  Al autorizar generar un QR, el texto se envía a QR Server.
                 </Text>
               </View>
-              <View className="bg-success rounded-full p-2">
-                <IconSymbol name="checkmark" size={16} color="white" />
+              <View className="rounded-lg border border-warning p-2">
+                <Text className="text-warning text-xs font-semibold">Externo</Text>
               </View>
             </View>
 
             <View className="flex-row items-center justify-between">
               <View className="flex-1">
-                <Text className="text-foreground font-semibold">Encriptación Local</Text>
+                <Text className="text-foreground font-semibold">Almacenamiento local</Text>
                 <Text className="text-muted text-xs mt-1">
-                  Todos los datos encriptados en el dispositivo
+                  AsyncStorage no incorpora cifrado de contenido propio de esta app.
                 </Text>
               </View>
-              <View className="bg-success rounded-full p-2">
-                <IconSymbol name="lock" size={16} color="white" />
+              <View className="rounded-lg border border-warning p-2">
+                <Text className="text-warning text-xs font-semibold">Sin cifrar</Text>
               </View>
             </View>
           </View>
@@ -154,9 +154,9 @@ export default function PrivacySettingsScreen() {
                 <IconSymbol name="shield" size={16} color="white" />
               </View>
               <View className="flex-1">
-                <Text className="text-foreground font-semibold">Hash de Integridad</Text>
+                <Text className="text-foreground font-semibold">Suma de comprobación</Text>
                 <Text className="text-muted text-xs">
-                  Cada QR tiene un hash único para verificar autenticidad
+                  FNV-1a detecta cambios accidentales; no acredita autenticidad ni autoría.
                 </Text>
               </View>
             </View>
@@ -166,9 +166,9 @@ export default function PrivacySettingsScreen() {
                 <IconSymbol name="eye" size={16} color="white" />
               </View>
               <View className="flex-1">
-                <Text className="text-foreground font-semibold">Watermark Invisible</Text>
+                <Text className="text-foreground font-semibold">Marca de agua no implementada</Text>
                 <Text className="text-muted text-xs">
-                  Protección contra copia no autorizada de QR
+                  Solo existe una etiqueta de metadatos; no se modifica la imagen.
                 </Text>
               </View>
             </View>
@@ -178,9 +178,9 @@ export default function PrivacySettingsScreen() {
                 <IconSymbol name="lock.fill" size={16} color="white" />
               </View>
               <View className="flex-1">
-                <Text className="text-foreground font-semibold">Encriptación TLS 1.3+</Text>
+                <Text className="text-foreground font-semibold">Transporte HTTPS externo</Text>
                 <Text className="text-muted text-xs">
-                  Comunicación segura en tránsito
+                  La versión TLS depende del proveedor y no está verificada aquí.
                 </Text>
               </View>
             </View>
@@ -189,7 +189,7 @@ export default function PrivacySettingsScreen() {
 
         {/* User Rights Section */}
         <View className="mb-6 bg-surface rounded-2xl p-4 border border-border gap-4">
-          <Text className="text-lg font-bold text-foreground">Derechos del Usuario</Text>
+          <Text className="text-lg font-bold text-foreground">Opciones de datos locales</Text>
 
           <TouchableOpacity
             onPress={handleViewReport}
@@ -202,22 +202,22 @@ export default function PrivacySettingsScreen() {
 
           <View className="gap-2 text-xs text-muted">
             <Text className="text-muted text-xs">
-              ✓ <Text className="font-semibold">Derecho al Olvido:</Text> Elimina todos tus datos
+              ✓ <Text className="font-semibold">Borrado local:</Text> Elimina el historial, favoritos y preferencias de esta app
             </Text>
             <Text className="text-muted text-xs">
-              ✓ <Text className="font-semibold">Portabilidad:</Text> Accede a tus datos
+              ✓ <Text className="font-semibold">Exportación:</Text> No implementada en esta pantalla
             </Text>
             <Text className="text-muted text-xs">
-              ✓ <Text className="font-semibold">Rectificación:</Text> Corrige tus datos
+              ✓ <Text className="font-semibold">Proveedor externo:</Text> No se borran datos ya enviados a QR Server
             </Text>
             <Text className="text-muted text-xs">
-              ✓ <Text className="font-semibold">Acceso:</Text> Consulta qué datos tenemos
+              ✓ <Text className="font-semibold">Acceso local:</Text> Consulta los datos guardados en la app
             </Text>
           </View>
         </View>
 
         {/* Danger Zone */}
-        <View className="mb-6 bg-error rounded-2xl p-4 gap-4 opacity-20">
+        <View className="mb-6 bg-surface border border-error rounded-2xl p-4 gap-4">
           <Text className="text-lg font-bold text-error">Zona de Peligro</Text>
 
           <TouchableOpacity
@@ -230,8 +230,8 @@ export default function PrivacySettingsScreen() {
           </TouchableOpacity>
 
           <Text className="text-muted text-xs">
-            Esta acción elimina permanentemente todos tus QR, historial y favoritos (Derecho al
-            olvido GDPR). No se puede deshacer.
+            Elimina los datos locales de QR Pro. No borra información que ya haya
+            recibido QR Server. No se puede deshacer.
           </Text>
         </View>
 
@@ -239,10 +239,10 @@ export default function PrivacySettingsScreen() {
         <View className="mb-6 bg-surface rounded-2xl p-4 border border-border gap-3">
           <Text className="text-foreground font-semibold">Política de Privacidad</Text>
           <Text className="text-muted text-xs leading-relaxed">
-            QR Pro Generator respeta tu privacidad. No recopilamos datos personales sin tu
-            consentimiento explícito. Todos los datos se almacenan localmente en tu dispositivo y
-            se encriptan automáticamente. Cumplimos con GDPR, RGPD y otras regulaciones europeas
-            de protección de datos.
+            El historial y las preferencias se guardan localmente en AsyncStorage sin cifrado
+            propio. Si autorizas generar un QR, el texto o enlace se envía a QR Server y puede
+            conservarse según sus políticas. La aplicación no controla su retención ni certifica
+            cumplimiento RGPD.
           </Text>
         </View>
 
