@@ -24,7 +24,7 @@ export default function HistoryScreen() {
     // TODO: Copiar al portapapeles
   };
 
-  const renderHistoryItem = ({ item }: { item: any }) => (
+  const renderHistoryItem = ({ item }: { item: unknown }) => (
     <View className="bg-surface rounded-xl p-4 mb-3 border border-border flex-row items-center justify-between">
       <View className="flex-1">
         <Text className="text-foreground font-semibold text-sm mb-1">{item.qrType}</Text>

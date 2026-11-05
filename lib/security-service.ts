@@ -140,7 +140,7 @@ export async function createQRMetadata(content: string): Promise<QRMetadata> {
 /**
  * Encriptar datos locales (AsyncStorage)
  */
-export async function encryptData(data: any): Promise<string> {
+export async function encryptData(data: unknown): Promise<string> {
   try {
     const jsonString = JSON.stringify(data);
     const combined = jsonString + ENCRYPTION_KEY;

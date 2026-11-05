@@ -19,7 +19,7 @@ export default function FavoritesScreen() {
     // TODO: Compartir QR
   };
 
-  const renderFavoriteItem = ({ item }: { item: any }) => (
+  const renderFavoriteItem = ({ item }: { item: unknown }) => (
     <TouchableOpacity
       activeOpacity={0.7}
       className="bg-surface rounded-xl p-4 mb-3 border border-border"
