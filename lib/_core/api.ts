@@ -94,13 +94,13 @@ export async function apiCall<T>(endpoint: string, options: RequestInit = {}): P
 export async function exchangeOAuthCode(
   code: string,
   state: string,
-): Promise<{ sessionToken: string; user: any }> {
+): Promise<{ sessionToken: string; user: unknown }> {
   console.log("[API] exchangeOAuthCode called");
   // Use GET with query params
   const params = new URLSearchParams({ code, state });
   const endpoint = `/api/oauth/mobile?${params.toString()}`;
   console.log("[API] Calling OAuth mobile endpoint:", endpoint);
-  const result = await apiCall<{ app_session_id: string; user: any }>(endpoint);
+  const result = await apiCall<{ app_session_id: string; user: unknown }>(endpoint);
 
   // Convert app_session_id to sessionToken for compatibility
   const sessionToken = result.app_session_id;
@@ -133,7 +133,7 @@ export async function getMe(): Promise<{
   lastSignedIn: string;
 } | null> {
   try {
-    const result = await apiCall<{ user: any }>("/api/auth/me");
+    const result = await apiCall<{ user: unknown }>("/api/auth/me");
     return result.user || null;
   } catch (error) {
     console.error("[API] getMe failed:", error);
