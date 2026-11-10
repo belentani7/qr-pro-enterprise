@@ -912,3 +912,7 @@ export default config;
   "packageManager": "pnpm@9.12.0"
 }
 ```
+
+
+## Producto
+Véase `plataforma/OFERTA.md`, `plataforma/precios.json`, `plataforma/ONEPAGER.md`.

@@ -13,11 +13,12 @@ type PaletteName = keyof typeof SchemeColors.light;
 const paletteNames: PaletteName[] = Object.keys(SchemeColors.light) as PaletteName[];
 
 function ColorSwatch({ name, value }: { name: PaletteName; value: string }) {
+  const displayName = String(name);
   return (
     <View className="flex-row items-center justify-between rounded-xl border border-border px-3 py-2">
       <View className="flex-row items-center gap-3">
         <View className="h-6 w-6 rounded-full border border-border" style={{ backgroundColor: value }} />
-        <Text className="text-sm font-semibold text-foreground">{name}</Text>
+        <Text className="text-sm font-semibold text-foreground">{displayName}</Text>
       </View>
       <Text className="text-xs font-mono text-muted">{value}</Text>
     </View>
@@ -212,7 +213,7 @@ export default function ThemeLabScreen() {
             </Text>
             <View className="mt-3 gap-2">
               {swatches.map((item) => (
-                <ColorSwatch key={item.name} name={item.name} value={item.value} />
+                <ColorSwatch key={String(item.name)} name={item.name} value={item.value} />
               ))}
             </View>
           </ThemedView>

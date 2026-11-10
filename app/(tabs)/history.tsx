@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import { useQRStorage } from "@/hooks/use-qr-storage";
+import { useQRStorage, StoredQR } from "@/hooks/use-qr-storage";
 import * as Haptics from "expo-haptics";
 
 export default function HistoryScreen() {
@@ -24,7 +24,7 @@ export default function HistoryScreen() {
     // TODO: Copiar al portapapeles
   };
 
-  const renderHistoryItem = ({ item }: { item: unknown }) => (
+  const renderHistoryItem = ({ item }: { item: StoredQR }) => (
     <View className="bg-surface rounded-xl p-4 mb-3 border border-border flex-row items-center justify-between">
       <View className="flex-1">
         <Text className="text-foreground font-semibold text-sm mb-1">{item.qrType}</Text>
@@ -32,7 +32,7 @@ export default function HistoryScreen() {
           {item.content}
         </Text>
         <Text className="text-muted text-xs mt-1">
-          {new Date(item.date).toLocaleDateString()}
+          {new Date(item.timestamp).toLocaleDateString()}
         </Text>
       </View>
       <View className="flex-row gap-2 ml-4">

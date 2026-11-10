@@ -2,6 +2,15 @@ import { Platform } from "react-native";
 import { getApiBaseUrl } from "@/constants/oauth";
 import * as Auth from "./auth";
 
+export interface User {
+  id: number;
+  openId: string;
+  name: string | null;
+  email: string | null;
+  loginMethod: string | null;
+  lastSignedIn: string;
+}
+
 type ApiResponse<T> = {
   data?: T;
   error?: string;
@@ -94,13 +103,13 @@ export async function apiCall<T>(endpoint: string, options: RequestInit = {}): P
 export async function exchangeOAuthCode(
   code: string,
   state: string,
-): Promise<{ sessionToken: string; user: unknown }> {
+): Promise<{ sessionToken: string; user: User }> {
   console.log("[API] exchangeOAuthCode called");
   // Use GET with query params
   const params = new URLSearchParams({ code, state });
   const endpoint = `/api/oauth/mobile?${params.toString()}`;
   console.log("[API] Calling OAuth mobile endpoint:", endpoint);
-  const result = await apiCall<{ app_session_id: string; user: unknown }>(endpoint);
+  const result = await apiCall<{ app_session_id: string; user: User }>(endpoint);
 
   // Convert app_session_id to sessionToken for compatibility
   const sessionToken = result.app_session_id;
@@ -124,16 +133,9 @@ export async function logout(): Promise<void> {
 }
 
 // Get current authenticated user (web uses cookie-based auth)
-export async function getMe(): Promise<{
-  id: number;
-  openId: string;
-  name: string | null;
-  email: string | null;
-  loginMethod: string | null;
-  lastSignedIn: string;
-} | null> {
+export async function getMe(): Promise<User | null> {
   try {
-    const result = await apiCall<{ user: unknown }>("/api/auth/me");
+    const result = await apiCall<{ user: User }>("/api/auth/me");
     return result.user || null;
   } catch (error) {
     console.error("[API] getMe failed:", error);

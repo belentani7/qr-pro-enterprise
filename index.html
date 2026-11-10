@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="es"><head>
+    <meta charset="UTF-8"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Qr Pro Enterprise — belentani7</title><meta name="description" content="Qr Pro Enterprise — producto full-stack con API REST y frontend React."><style>
 :root{--bg:#070a0f;--card:#0f172a;--line:#1e293b;--accent:#22d3ee;--accent-2:#818cf8;--text:#f8fafc;--muted:#94a3b8;--ok:#4ade80;--radius:12px}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
@@ -67,8 +68,8 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--muted);font-s
 <div class="section-head"><h2>Contacto</h2><p>Envía un mensaje. Se almacena solo en este navegador.</p></div>
 <div class="form-card">
 <form id="contactoForm">
-<div class="form-group"><label>Nombre</label><input name="nombre" required placeholder="Tu nombre"></div>
-<div class="form-group"><label>Correo</label><input type="email" name="email" required placeholder="tú@ejemplo.com"></div>
+<div class="form-group"><label>Nombre</label><input aria-label="Nombre" name="nombre" required placeholder="Tu nombre"></div>
+<div class="form-group"><label>Correo</label><input aria-label="Email" type="email" name="email" required placeholder="tú@ejemplo.com"></div>
 <div class="form-group"><label>Mensaje</label><textarea name="mensaje" rows="4" required placeholder="¿En qué puedo ayudarte?"></textarea></div>
 <button type="submit" class="btn primary">Enviar mensaje</button>
 <div class="msg" id="formMsg"></div>
