@@ -56,3 +56,51 @@ Proveer valor a través de tecnología moderna, código mantenible y experiencia
 - Monorepo o repositorio independiente según el producto
 - Despliegue por copia de archivos (cero build) salvo que se especifique lo contrario
 - Working trees respetados: no se sobrescriben cambios sin restaurar desde HEAD
+
+<!-- repo-forge:biblia:inicio -->
+# BIBLIA.md — qr-pro-enterprise
+
+Doctrina del producto del repositorio `qr-pro-enterprise` del ecosistema belentani7.
+
+## Visión
+
+gestión multi-sede con analítica y caducidad de códigos
+
+## Misión
+
+Enseñar y construir seguridad mostrando exactamente qué se hace, con qué límite y cómo se comprueba.
+
+## Público
+
+negocios que gestionan códigos
+
+## Stack
+
+aplicación web con build (Next/Vite/Expo) · YAML, TypeScript, Markdown, HTML, JSON, JavaScript
+
+## Módulos que la promesa exige
+
+- Generar
+- Gestionar
+- Analítica
+- Equipos
+
+## Reglas de desarrollo
+
+- Protocolo spec-first: PRD → SRS → Design Doc → ADR → Plan → Tests.
+- Un cambio, un resultado verificable.
+- Nada se afirma sin ejecución; lo no probado se declara como no probado.
+- Escritura solo con confirmación; nada destructivo.
+- Idioma del producto: español, salvo el público del repositorio.
+- Secreto fuera de disco, logs y manifiestos.
+
+## Lo que este repositorio no va a hacer
+
+tracking sin consentimiento
+
+## Convenciones
+
+`type(scope): resumen` — feat, fix, docs, chore, refactor, test, perf.
+
+<!-- repo-forge:biblia -->
+<!-- repo-forge:biblia:fin -->

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="es"><head>
-    <meta charset="UTF-8"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Qr Pro Enterprise — belentani7</title><meta name="description" content="Qr Pro Enterprise — producto full-stack con API REST y frontend React."><style>
 :root{--bg:#070a0f;--card:#0f172a;--line:#1e293b;--accent:#22d3ee;--accent-2:#818cf8;--text:#f8fafc;--muted:#94a3b8;--ok:#4ade80;--radius:12px}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
@@ -45,8 +44,20 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--muted);font-s
 .view{display:none}
 .view.active{display:block}
 @media (max-width:640px){.nav-links{display:none}.container{max-width:100%}}
-</style></head>
+</style>
+<!-- repo-forge:head -->
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Qr Pro Enterprise — belentani7">
+<meta property="og:description" content="Enseñar y construir seguridad mostrando exactamente qué se hace, con qué límite y cómo se comprueba.">
+<meta property="og:image" content="brand/og-image.svg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/a11y.css">
+</head>
 <body>
+<main>
+
 <a class="skip" href="#contenido">Saltar al contenido</a>
 <nav><div class="container"><div class="nav-left"><div class="mark">B7</div><div class="logo">belentani7</div></div>
 <div class="nav-links"><a data-view="inicio" class="active">Inicio</a><a data-view="producto">Producto</a><a data-view="contacto">Contacto</a></div></div></nav>
@@ -68,13 +79,14 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--muted);font-s
 <div class="section-head"><h2>Contacto</h2><p>Envía un mensaje. Se almacena solo en este navegador.</p></div>
 <div class="form-card">
 <form id="contactoForm">
-<div class="form-group"><label>Nombre</label><input aria-label="Nombre" name="nombre" required placeholder="Tu nombre"></div>
-<div class="form-group"><label>Correo</label><input aria-label="Email" type="email" name="email" required placeholder="tú@ejemplo.com"></div>
+<div class="form-group"><label>Nombre</label><input name="nombre" required placeholder="Tu nombre" aria-label="Tu nombre"></div>
+<div class="form-group"><label>Correo</label><input type="email" name="email" required placeholder="tú@ejemplo.com" aria-label="tú@ejemplo.com"></div>
 <div class="form-group"><label>Mensaje</label><textarea name="mensaje" rows="4" required placeholder="¿En qué puedo ayudarte?"></textarea></div>
 <button type="submit" class="btn primary">Enviar mensaje</button>
 <div class="msg" id="formMsg"></div>
 </form></div></div></section>
 
+</main>
 <footer><div class="container">© 2026 belentani7 · Qr Pro Enterprise · SPA autocontenido</div></footer>
 <script>
 const views = document.querySelectorAll('.view');
@@ -94,4 +106,5 @@ form.addEventListener('submit',e=>{
   form.reset();setTimeout(()=>msg.textContent='',3000);
 });
 show('inicio');
-</script></body></html>
+</script><!-- page-fix:1 -->
+</body></html>

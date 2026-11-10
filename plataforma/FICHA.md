@@ -1,32 +1,70 @@
-# Ficha de producto â€” qr-pro-enterprise
 
-## Identidad
-- **Nombre:** qr-pro-enterprise
-- **Tipo:** repositorio del ecosistema belentani7
-- **Modelo de producto:** herramienta / servicio web
-- **Origen:** clonado de GitHub (belentani7/qr-pro-enterprise)
 
-## QuÃ© resuelve
-Expo Mobile Template
+<!-- repo-forge:plataforma-ficha:inicio -->
+# Ficha — QR Pro (`qr-pro-enterprise`)
 
-## MÃ¡ximo potencial alcanzable
-| DimensiÃ³n | Estado actual | Techo |
-|-----------|---------------|-------|
-| Producto | Repositorio clonado | Producto comercial completo con 8 piezas de plataforma |
-| MonetizaciÃ³n | No definida | 4 fases de pago con regla dura |
-| Despliegue | Local / GitHub Pages | ProducciÃ³n con dominio y soporte |
+> Generada por repo-forge el 2026-11-10 desde el árbol real. Cada cifra tiene su fuente en
+> [`docs/FUENTES.md`](../docs/FUENTES.md).
 
-## Brechas para completar el producto comercial
-1. OFERTA.md â€” oferta comercial concreta
-2. precios.json â€” precios definidos
-3. COBRO.md â€” flujo de pago y facturaciÃ³n
-4. ONEPAGER.md â€” landing de venta
-5. DEMO.md â€” guion de demo
-6. METRICAS.md â€” KPIs de adopciÃ³n
-7. Enlace en README â€” apuntar a landing de producto
-8. AuditorÃ­a â€” gate de 20 comprobaciones en verde
+## 1. Identidad
 
-## AuditorÃ­a interna
-- git status: revisado
-- Cambios: create-only (plataforma/ agregado, nada modificado ni borrado)
+| Campo | Valor |
+|---|---|
+| Repositorio | `belentani7/qr-pro-enterprise` |
+| Tipo de plataforma | aplicación web con build (Next/Vite/Expo) |
+| Modelo de producto | app móvil (Expo) de QR empresarial |
+| Público | negocios que gestionan códigos |
+| Stack medido | YAML 49.8%, TypeScript 34.0%, Markdown 8.0%, HTML 3.5%, JSON 2.7%, JavaScript 1.6% |
+| Tamaño | 146 archivos · 13639 líneas · 2.0 MB |
 
+## 2. Máximo potencial
+
+gestión multi-sede con analítica y caducidad de códigos
+
+Ese es el techo, no el estado. Lo que hoy existe es lo del apartado 3.
+
+## 3. Lo que hay hoy
+
+- Páginas HTML: 3
+- Tests: 3
+- CI: sí
+- Licencia: sí
+- README: sí (618 líneas)
+- Cumplimiento de reglas: **35/37** (94.6%)
+
+## 4. Diseño de plataforma que la promesa exige
+
+| Módulo | Por qué | Estado |
+|---|---|---|
+| Generar | La promesa lo exige | pendiente |
+| Gestionar | La promesa lo exige | pendiente |
+| Analítica | La promesa lo exige | pendiente |
+| Equipos | La promesa lo exige | pendiente |
+
+Datos: códigos, escaneos.
+Integraciones: Expo, backend.
+
+## 5. Brechas
+
+Reglas en rojo: `COH-03`, `DEV-05`.
+
+Cada una tiene su corrección en `CAMBIOS.md` o queda declarada como pendiente.
+
+## 6. Esfuerzo para llegar al techo
+
+| Fase | Contenido | Días-persona |
+|---|---|---|
+| 1 | Cerrar reglas en rojo y dejar el gate en verde | 1 |
+| 2 | Módulos 1–2 del diseño, con prueba | 12 |
+| 3 | Módulos restantes y contenido real | 20 |
+| 4 | Pulido, accesibilidad auditada y publicación | 8 |
+
+Supuestos: una persona con contexto del stack, sin bloqueos externos, y sin contar
+dependencias de terceros que hoy no estén instaladas.
+
+## 7. Lo que este repositorio no va a hacer
+
+tracking sin consentimiento
+
+<!-- repo-forge:ficha -->
+<!-- repo-forge:plataforma-ficha:fin -->

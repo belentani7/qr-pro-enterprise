@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="QR Pro">
+  <rect width="1200" height="630" fill="#0d1117"/>
+  <rect x="48" y="48" width="1104" height="534" rx="24" fill="none" stroke="#209235" stroke-width="2" opacity="0.45"/>
+  <text x="96" y="300" font-family="Georgia, serif" font-size="86" fill="#e6edf3">QR Pro</text>
+  <text x="96" y="372" font-family="system-ui, sans-serif" font-size="34" fill="#94999f">app móvil (Expo) de QR empresarial</text>
+  <rect x="96" y="430" width="120" height="6" fill="#209235"/>
+  <text x="96" y="520" font-family="ui-monospace, monospace" font-size="24" fill="#209235">belentani7 · 2026</text>
+</svg>

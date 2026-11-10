@@ -99,3 +99,11 @@ secrets.json
 .npmrc
 .pypirc
 .user_env
+
+# repo-forge
+.next/
+out/
+coverage/
+__pycache__/
+*.pyc
+.venv/

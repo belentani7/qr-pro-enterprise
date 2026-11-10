@@ -913,6 +913,84 @@ export default config;
 }
 ```
 
+<!-- repo-forge:readme:inicio -->
+## Qué es
+
+**QR Pro** — app móvil (Expo) de QR empresarial.
+
+Enseñar y construir seguridad mostrando exactamente qué se hace, con qué límite y cómo se comprueba.
+
+## Estado medido
+
+| Dato | Valor |
+|---|---|
+| Lenguajes | YAML, TypeScript, Markdown, HTML, JSON, JavaScript |
+| Archivos / líneas | 146 / 13639 |
+| Páginas HTML | 3 |
+| Tests detectados | 3 |
+| Cumplimiento de reglas | 35/37 (94.6%) |
+
+Todo lo anterior se midió en disco el 2026-11-10; no es una estimación.
+
+## Uso
+
+```bash
+npm install
+npm run dev
+```
+
+## Estructura
+
+```
+app/
+assets/
+brand/
+components/
+constants/
+data/
+docs/
+drizzle/
+hooks/
+lib/
+```
+
+## Diseño de plataforma
+
+- Generar
+- Gestionar
+- Analítica
+- Equipos
+
+La ficha completa —máximo potencial, marca, fases de monetización y recursos— vive en
+[`plataforma/FICHA.md`](plataforma/FICHA.md). Los tokens de marca están en
+[`brand/tokens.css`](brand/tokens.css).
+
+## Reglas del proyecto
+
+Este repositorio sigue el catálogo oficial del ecosistema (`GH-*`, `WEB-*`, `ACC-*`,
+`SEO-*`, `COH-*`, `DEV-*`). El gate se ejecuta con:
+
+```bash
+python scripts/doctor.py
+```
+
+## Licencia
+
+MIT. Ver [`LICENSE`](LICENSE).
+<!-- repo-forge:readme:fin -->
+<!-- repo-forge:readme:fin -->
+<!-- repo-forge:readme:fin -->
+<!-- repo-forge:readme:fin -->
+
+## Resumen en español
+
+QR Pro — app móvil (Expo) de QR empresarial.
+
+gestión multi-sede con analítica y caducidad de códigos
+
+Este resumen se añadió para que el repositorio se pueda leer en el idioma del ecosistema.
+El contenido técnico completo sigue en el resto del documento.
 
 ## Producto
-Véase `plataforma/OFERTA.md`, `plataforma/precios.json`, `plataforma/ONEPAGER.md`.
+
+Oferta, precio y cobro: [`producto/OFERTA.md`](producto/OFERTA.md) · [`producto/precios.json`](producto/precios.json) · [`producto/landing.html`](producto/landing.html)
