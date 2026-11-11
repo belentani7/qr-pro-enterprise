@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="es"><head>
-    <meta charset="UTF-8"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Qr Pro Enterprise — belentani7</title><meta name="description" content="Qr Pro Enterprise — producto full-stack con API REST y frontend React."><style>
 :root{--bg:#070a0f;--card:#0f172a;--line:#1e293b;--accent:#22d3ee;--accent-2:#818cf8;--text:#f8fafc;--muted:#94a3b8;--ok:#4ade80;--radius:12px}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
@@ -45,8 +44,20 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--muted);font-s
 .view{display:none}
 .view.active{display:block}
 @media (max-width:640px){.nav-links{display:none}.container{max-width:100%}}
-</style></head>
+</style>
+<!-- repo-forge:head -->
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Qr Pro Enterprise — belentani7">
+<meta property="og:description" content="Enseñar y construir seguridad mostrando exactamente qué se hace, con qué límite y cómo se comprueba.">
+<meta property="og:image" content="brand/og-image.svg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/a11y.css">
+</head>
 <body>
+<main>
+
 <a class="skip" href="#contenido">Saltar al contenido</a>
 <nav><div class="container"><div class="nav-left"><div class="mark">B7</div><div class="logo">belentani7</div></div>
 <div class="nav-links"><a data-view="inicio" class="active">Inicio</a><a data-view="producto">Producto</a><a data-view="contacto">Contacto</a></div></div></nav>
@@ -68,13 +79,123 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:var(--muted);font-s
 <div class="section-head"><h2>Contacto</h2><p>Envía un mensaje. Se almacena solo en este navegador.</p></div>
 <div class="form-card">
 <form id="contactoForm">
-<div class="form-group"><label>Nombre</label><input aria-label="Nombre" name="nombre" required placeholder="Tu nombre"></div>
-<div class="form-group"><label>Correo</label><input aria-label="Email" type="email" name="email" required placeholder="tú@ejemplo.com"></div>
+<div class="form-group"><label>Nombre</label><input name="nombre" required placeholder="Tu nombre" aria-label="Tu nombre"></div>
+<div class="form-group"><label>Correo</label><input type="email" name="email" required placeholder="tú@ejemplo.com" aria-label="tú@ejemplo.com"></div>
 <div class="form-group"><label>Mensaje</label><textarea name="mensaje" rows="4" required placeholder="¿En qué puedo ayudarte?"></textarea></div>
 <button type="submit" class="btn primary">Enviar mensaje</button>
 <div class="msg" id="formMsg"></div>
 </form></div></div></section>
 
+
+<section class="webgl-lab" data-webgl-lab>
+  <h2>Laboratorio WebGL</h2>
+  <p class="webgl-lab__lead">Una malla animada calculada en tu tarjeta gráfica. Sin imágenes, sin dependencias y sin enviar nada a ningún servidor.</p>
+  <div class="webgl-lab__stage">
+    <canvas class="webgl-lab__canvas" width="640" height="320" aria-label="Malla animada generada con WebGL" role="img"></canvas>
+    <noscript><p class="webgl-lab__fallback">Este laboratorio necesita JavaScript. El resto de la página funciona sin él.</p></noscript>
+  </div>
+  <p class="webgl-lab__actions"><button type="button" class="webgl-lab__toggle" data-webgl-toggle aria-pressed="false">Pausar animación</button></p>
+</section>
+<style>
+  .webgl-lab { margin: 2.5rem 0; padding: 1.25rem; border: 1px solid rgba(128,128,128,.28); border-radius: 14px; }
+  .webgl-lab h2 { margin: 0 0 .35rem; font-size: 1.15rem; }
+  .webgl-lab__lead { margin: 0 0 1rem; opacity: .82; max-width: 62ch; }
+  .webgl-lab__stage { position: relative; background: #0b0a12; border-radius: 10px; overflow: hidden; }
+  .webgl-lab__canvas { display: block; width: 100%; height: 220px; }
+  .webgl-lab__fallback { margin: 0; padding: 1rem; color: #f2eefc; }
+  .webgl-lab__actions { margin: .8rem 0 0; }
+  .webgl-lab__toggle { font: inherit; padding: .45rem .9rem; border-radius: 999px; border: 1px solid currentColor; background: transparent; color: inherit; cursor: pointer; }
+  .webgl-lab__toggle[aria-pressed="true"] { opacity: .65; }
+  @media (prefers-reduced-motion: reduce) { .webgl-lab__canvas { display: none; } .webgl-lab__stage::after { content: "Animación desactivada por tu preferencia de movimiento reducido."; display: block; padding: 1rem; color: #f2eefc; } }
+</style>
+<script>
+(() => {
+  "use strict";
+  const raiz = document.querySelector("[data-webgl-lab]");
+  if (!raiz || raiz.dataset.ready === "1") return;
+  raiz.dataset.ready = "1";
+
+  const canvas = raiz.querySelector("canvas");
+  const boton = raiz.querySelector("[data-webgl-toggle]");
+  const reducir = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+  if (!gl || reducir) { canvas.hidden = true; return; }
+
+  const vs = `attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }`;
+  const fs = `
+    precision mediump float;
+    uniform vec2 u_res;
+    uniform float u_t;
+    void main() {
+      vec2 uv = (gl_FragCoord.xy - 0.5 * u_res) / min(u_res.x, u_res.y);
+      float d = length(uv);
+      float ondas = sin(d * 14.0 - u_t * 1.6) * 0.5 + 0.5;
+      float halo = smoothstep(0.75, 0.05, d);
+      vec3 base = vec3(0.043, 0.039, 0.07);
+      vec3 acento = vec3(0.66, 0.55, 0.98);
+      vec3 color = base + acento * (ondas * 0.35 + halo * 0.45);
+      gl_FragColor = vec4(color, 1.0);
+    }`;
+
+  const compilar = (tipo, fuente) => {
+    const s = gl.createShader(tipo);
+    gl.shaderSource(s, fuente); gl.compileShader(s);
+    return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null;
+  };
+  const v = compilar(gl.VERTEX_SHADER, vs);
+  const f = compilar(gl.FRAGMENT_SHADER, fs);
+  if (!v || !f) { canvas.hidden = true; return; }
+
+  const prog = gl.createProgram();
+  gl.attachShader(prog, v); gl.attachShader(prog, f); gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { canvas.hidden = true; return; }
+  gl.useProgram(prog);
+
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, "p");
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+
+  const uRes = gl.getUniformLocation(prog, "u_res");
+  const uT = gl.getUniformLocation(prog, "u_t");
+
+  const ajustar = () => {
+    const r = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.max(1, Math.round(r.width * dpr));
+    canvas.height = Math.max(1, Math.round(r.height * dpr));
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+  };
+  ajustar();
+  window.addEventListener("resize", ajustar, { passive: true });
+
+  let t = 0, pausado = false, raf = 0;
+  const pintar = () => {
+    if (!pausado) t += 0.016;
+    gl.uniform1f(uT, t);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    raf = requestAnimationFrame(pintar);
+  };
+  pintar();
+
+  if (boton) {
+    boton.addEventListener("click", () => {
+      pausado = !pausado;
+      boton.setAttribute("aria-pressed", String(pausado));
+      boton.textContent = pausado ? "Reanudar animación" : "Pausar animación";
+      if (pausado) { cancelAnimationFrame(raf); raf = 0; } else if (!raf) { pintar(); }
+    });
+  }
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { cancelAnimationFrame(raf); raf = 0; }
+    else if (!pausado && !raf) { pintar(); }
+  });
+})();
+</script>
+</main>
 <footer><div class="container">© 2026 belentani7 · Qr Pro Enterprise · SPA autocontenido</div></footer>
 <script>
 const views = document.querySelectorAll('.view');
@@ -94,4 +215,5 @@ form.addEventListener('submit',e=>{
   form.reset();setTimeout(()=>msg.textContent='',3000);
 });
 show('inicio');
-</script></body></html>
+</script><!-- page-fix:1 -->
+</body></html>

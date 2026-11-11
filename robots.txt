@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://belentani7.github.io/qr-pro-enterprise/sitemap.xml

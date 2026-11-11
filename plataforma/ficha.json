@@ -1,0 +1,79 @@
+{
+  "esquema": "repo-forge/ficha/1",
+  "nombre": "qr-pro-enterprise",
+  "remoto": "https://github.com/belentani7/qr-pro-enterprise",
+  "arquetipo": "web-app",
+  "stack": "React + YAML",
+  "modelo": "app móvil (Expo) de QR empresarial",
+  "publico": "negocios que gestionan códigos",
+  "techo": "gestión multi-sede con analítica y caducidad de códigos",
+  "modulos": [
+    "Generar",
+    "Gestionar",
+    "Analítica",
+    "Equipos"
+  ],
+  "no_go": "tracking sin consentimiento",
+  "marca": {
+    "nombre": "QR Pro",
+    "familia": "seguridad",
+    "paleta": {
+      "familia": "seguridad",
+      "bg": "#0d1117",
+      "surface": "#171b21",
+      "ink": "#e6edf3",
+      "muted": "#94999f",
+      "accent": "#209235",
+      "accent2": "#f0883e",
+      "ok": "#15803d",
+      "warn": "#b45309",
+      "danger": "#b91c1c",
+      "contraste_ink_bg": 16.02,
+      "contraste_accent_bg": 4.71,
+      "accent_sobre_bg_ok": true
+    },
+    "narrativa": "La confianza se gana con evidencia"
+  },
+  "paywall": {
+    "principio": "acceso abierto; monetización solo si hay servicio real detrás",
+    "fases": 4
+  },
+  "medido": {
+    "archivos": 146,
+    "lineas": 13639,
+    "html": 3,
+    "tests": 3,
+    "bytes": 2068882,
+    "lenguajes": {
+      "YAML": 49.8,
+      "TypeScript": 34.0,
+      "Markdown": 8.0,
+      "HTML": 3.5,
+      "JSON": 2.7,
+      "JavaScript": 1.6
+    },
+    "fecha": "2026-11-10"
+  },
+  "gate": {
+    "pass": 35,
+    "fail": 2,
+    "skip": 12,
+    "cumplimiento": 94.6,
+    "fallos": [
+      "COH-03",
+      "DEV-05"
+    ]
+  },
+  "ajustes": {
+    "total": 64,
+    "aplicados": 55,
+    "ya_estaban": 9,
+    "fallos": 0
+  },
+  "esfuerzo_dias": 41,
+  "doctor": {
+    "ok": true,
+    "detalle": "35/35 comprobaciones en verde"
+  },
+  "huella": "1d465a0340cbcae4"
+}

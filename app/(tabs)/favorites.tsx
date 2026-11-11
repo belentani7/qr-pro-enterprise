@@ -2,7 +2,7 @@ import { Text, View, FlatList, TouchableOpacity } from "react-native";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import { useQRStorage, StoredQR } from "@/hooks/use-qr-storage";
+import { useQRStorage } from "@/hooks/use-qr-storage";
 import * as Haptics from "expo-haptics";
 
 export default function FavoritesScreen() {
@@ -19,7 +19,7 @@ export default function FavoritesScreen() {
     // TODO: Compartir QR
   };
 
-  const renderFavoriteItem = ({ item }: { item: StoredQR }) => (
+  const renderFavoriteItem = ({ item }: { item: unknown }) => (
     <TouchableOpacity
       activeOpacity={0.7}
       className="bg-surface rounded-xl p-4 mb-3 border border-border"
