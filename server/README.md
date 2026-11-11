@@ -1236,3 +1236,7 @@ const { data, fetchNextPage, hasNextPage } = trpc.items.list.useInfiniteQuery(
 | tRPC type errors | Run `pnpm check` to verify types |
 | Mutations fail silently | Check browser console for errors |
 | Session expired | User needs to login again |
+
+
+## Producto
+Véase `plataforma/OFERTA.md`.
