@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Pro Enterprise — Estudio Vectorial, Prompt 5K y Bóveda Cifrada</title>
+  <meta name="description" content="Plataforma empresarial local de generación vectorial QR ISO/IEC 18004, soporte de prompts de hasta 5.000 caracteres con encadenado multi-QR, esteganografía LSB + CRC32, escáner jsQR y cifrado Web Crypto AES-256-GCM.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="QR Pro Enterprise — Estudio Vectorial y Privacidad Local">
+  <meta property="og:description" content="Generación QR 100% local en SVG/PNG, prompts extendidos hasta 5.000 caracteres, auditoría WCAG 2.1 en vivo, esteganografía LSB y bóveda AES-256-GCM.">
+  <meta property="og:image" content="brand/og-image.svg">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="QR Pro Enterprise — Estudio Vectorial y Privacidad Local">
+  <meta name="theme-color" content="#060913">
+  <meta name="color-scheme" content="dark light">
+  <meta name="robots" content="index,follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/a11y.css">
+  <link rel="stylesheet" href="assets/studio.css">
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <header class="site-header">
+    <div class="container nav-bar">
+      <a class="brand-id" href="#contenido">
+        <span class="brand-mark" aria-hidden="true">QR</span>
+        <span class="brand-name">QR Pro Enterprise</span>
+      </a>
+      <nav aria-label="Navegación principal" class="nav-links">
+        <a href="#estudio">Estudio QR</a>
+        <a href="#escaner">Escáner Local</a>
+        <a href="#esteganografia">Esteganografía</a>
+        <a href="#boveda">Bóveda AES-256</a>
+        <a href="#webgl-lab">Motor GPU</a>
+      </nav>
+      <button id="theme-toggle-btn" type="button" class="theme-btn" aria-pressed="false">
+        Modo claro
+      </button>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero-banner" aria-labelledby="hero-heading">
+      <div class="container">
+        <p class="hero-eyebrow">ISO/IEC 18004 · Prompt 5.000 Caracteres · Cero Telemetría</p>
+        <h1 id="hero-heading">Ingeniería QR vectorial, esteganografía y privacidad criptográfica en tu dispositivo.</h1>
+        <p class="hero-lead">
+          Codifica URLs, credenciales Wi-Fi, tarjetas vCard 3.0 o prompts completos de hasta <strong>5.000 caracteres</strong> con particionado multi-QR automático, auditoría de contraste WCAG 2.1 en vivo, verificación óptica <code>jsQR</code> y almacenamiento cifrado <code>AES-256-GCM</code>.
+        </p>
+        <div class="hero-pills" role="list" aria-label="Capacidades verificadas">
+          <span class="pill" role="listitem">Renderizador local SVG y PNG</span>
+          <span class="pill" role="listitem">Prompts hasta 5.000 caracteres</span>
+          <span class="pill" role="listitem">Esteganografía LSB + CRC32</span>
+          <span class="pill" role="listitem">Web Crypto AES-256-GCM + SHA-256</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="estudio" class="studio-shell" aria-labelledby="studio-heading">
+      <div class="container">
+        <div class="studio-workspace">
+          <div class="panel-card">
+            <h2 id="studio-heading" class="panel-title">Estudio Generador Multi-Formato</h2>
+            <p class="panel-sub">Selecciona el tipo de carga útil y personaliza la geometría modular sin enviar datos a servidores externos.</p>
+
+            <div class="mode-tabs" role="tablist" aria-label="Tipo de código QR">
+              <button type="button" role="tab" class="mode-tab" data-studio-mode="prompt" aria-selected="true">Prompt / Texto 5K</button>
+              <button type="button" role="tab" class="mode-tab" data-studio-mode="url" aria-selected="false">URL</button>
+              <button type="button" role="tab" class="mode-tab" data-studio-mode="wifi" aria-selected="false">Wi-Fi</button>
+              <button type="button" role="tab" class="mode-tab" data-studio-mode="vcard" aria-selected="false">Contacto vCard</button>
+              <button type="button" role="tab" class="mode-tab" data-studio-mode="email" aria-selected="false">Email</button>
+              <button type="button" role="tab" class="mode-tab" data-studio-mode="sms" aria-selected="false">SMS / Tel</button>
+              <button type="button" role="tab" class="mode-tab" data-studio-mode="shape" aria-selected="false">Forma por Prompt</button>
+            </div>
+
+            <div data-mode-panel="prompt">
+              <div class="field">
+                <label for="input-prompt">Texto estructurado o Prompt completo (máximo 5.000 caracteres)</label>
+                <textarea id="input-prompt" maxlength="5000" rows="5" aria-describedby="prompt-char-count prompt-byte-count">https://github.com/belentani7/qr-pro-enterprise</textarea>
+                <div class="field-meta">
+                  <span id="prompt-char-count">47 / 5000 caracteres</span>
+                  <span id="prompt-byte-count">47 bytes UTF-8 · Símbolo único ISO/IEC 18004</span>
+                </div>
+              </div>
+            </div>
+
+            <div data-mode-panel="url" class="hidden">
+              <div class="field">
+                <label for="input-url">Dirección web (HTTPS)</label>
+                <input id="input-url" type="url" placeholder="https://ejemplo.es" value="https://github.com/belentani7/qr-pro-enterprise">
+              </div>
+            </div>
+
+            <div data-mode-panel="wifi" class="hidden">
+              <div class="field-grid">
+                <div class="field">
+                  <label for="input-wifi-ssid">Nombre de red (SSID)</label>
+                  <input id="input-wifi-ssid" type="text" placeholder="Red_Corporativa">
+                </div>
+                <div class="field">
+                  <label for="input-wifi-sec">Seguridad</label>
+                  <select id="input-wifi-sec">
+                    <option value="WPA">WPA / WPA2 / WPA3</option>
+                    <option value="WEP">WEP</option>
+                    <option value="nopass">Abierta (sin clave)</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label for="input-wifi-pass">Contraseña Wi-Fi</label>
+                <input id="input-wifi-pass" type="password" placeholder="Clave de acceso">
+              </div>
+            </div>
+
+            <div data-mode-panel="vcard" class="hidden">
+              <div class="field-grid">
+                <div class="field">
+                  <label for="input-vcard-name">Nombre completo</label>
+                  <input id="input-vcard-name" type="text" placeholder="Nombre y apellidos">
+                </div>
+                <div class="field">
+                  <label for="input-vcard-org">Organización</label>
+                  <input id="input-vcard-org" type="text" placeholder="Empresa o estudio">
+                </div>
+                <div class="field">
+                  <label for="input-vcard-phone">Teléfono</label>
+                  <input id="input-vcard-phone" type="tel" placeholder="+34 600 000 000">
+                </div>
+                <div class="field">
+                  <label for="input-vcard-email">Correo electrónico</label>
+                  <input id="input-vcard-email" type="email" placeholder="nombre@dominio.es">
+                </div>
+              </div>
+            </div>
+
+            <div data-mode-panel="email" class="hidden">
+              <div class="field-grid">
+                <div class="field">
+                  <label for="input-email-to">Destinatario</label>
+                  <input id="input-email-to" type="email" placeholder="soporte@dominio.es">
+                </div>
+                <div class="field">
+                  <label for="input-email-sub">Asunto</label>
+                  <input id="input-email-sub" type="text" placeholder="Consulta técnica">
+                </div>
+              </div>
+              <div class="field">
+                <label for="input-email-body">Mensaje</label>
+                <textarea id="input-email-body" maxlength="2000" rows="3" placeholder="Escribe el cuerpo del mensaje..."></textarea>
+              </div>
+            </div>
+
+            <div data-mode-panel="sms" class="hidden">
+              <div class="field-grid">
+                <div class="field">
+                  <label for="input-sms-phone">Número de teléfono</label>
+                  <input id="input-sms-phone" type="tel" placeholder="+34 600 000 000">
+                </div>
+                <div class="field">
+                  <label for="input-sms-msg">Mensaje SMS opcional</label>
+                  <input id="input-sms-msg" type="text" maxlength="1000" placeholder="Dejar vacío para llamada directa tel:">
+                </div>
+              </div>
+            </div>
+
+            <div data-mode-panel="shape" class="hidden">
+              <div class="field">
+                <label for="input-shape-content">Contenido destino del QR</label>
+                <input id="input-shape-content" type="text" maxlength="5000" value="https://github.com/belentani7/qr-pro-enterprise">
+              </div>
+              <div class="field">
+                <label for="input-shape-prompt">Prompt descriptivo de estilo y geometría (hasta 5.000 caracteres)</label>
+                <textarea id="input-shape-prompt" maxlength="5000" rows="4" placeholder="Ej.: Prisma diamante #7C3AED de alto contraste sobre marfil limpio...">Prisma diamante #4F46E5 minimalista de alto contraste</textarea>
+                <div class="field-meta">
+                  <span id="shape-prompt-count">0 / 5000 caracteres</span>
+                </div>
+              </div>
+            </div>
+
+            <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+
+            <div class="palette-strip" aria-label="Paletas rápidas con contraste verificado">
+              <button type="button" class="palette-chip" data-palette-dark="#0F172A" data-palette-light="#FFFFFF">
+                <span class="swatch-dot" style="background:#0F172A"></span> Obsidiana AAA
+              </button>
+              <button type="button" class="palette-chip" data-palette-dark="#0369A1" data-palette-light="#F8FAFC">
+                <span class="swatch-dot" style="background:#0369A1"></span> Cian Editorial
+              </button>
+              <button type="button" class="palette-chip" data-palette-dark="#4338CA" data-palette-light="#FFFFFF">
+                <span class="swatch-dot" style="background:#4338CA"></span> Índigo Real
+              </button>
+              <button type="button" class="palette-chip" data-palette-dark="#9F1239" data-palette-light="#FFF1F2">
+                <span class="swatch-dot" style="background:#9F1239"></span> Carmesí
+              </button>
+              <button type="button" class="palette-chip" data-palette-dark="#14532D" data-palette-light="#F0FDF4">
+                <span class="swatch-dot" style="background:#14532D"></span> Bosque
+              </button>
+            </div>
+
+            <div class="field-grid">
+              <div class="field">
+                <label for="opt-module-shape">Geometría de módulos</label>
+                <select id="opt-module-shape">
+                  <option value="rounded" selected>Redondeado suave</option>
+                  <option value="square">Clásico cuadrado</option>
+                  <option value="circle">Orbital circular</option>
+                  <option value="diamond">Prisma diamante</option>
+                  <option value="organic">Orgánico fluido</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="opt-finder-style">Patrones de esquina</label>
+                <select id="opt-finder-style">
+                  <option value="rounded" selected>Marco redondeado</option>
+                  <option value="square">Marco recto ISO</option>
+                  <option value="circle">Anillo concéntrico</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="opt-ecc">Corrección Reed-Solomon</label>
+                <select id="opt-ecc">
+                  <option value="L">Nivel L (~7%)</option>
+                  <option value="M" selected>Nivel M (~15%)</option>
+                  <option value="Q">Nivel Q (~25%)</option>
+                  <option value="H">Nivel H (~30% máx.)</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="opt-logo-text">Emblema central (máx. 4 letras)</label>
+                <input id="opt-logo-text" type="text" maxlength="4" placeholder="Ej. QRP">
+              </div>
+            </div>
+
+            <div class="field-grid">
+              <div class="field">
+                <label for="opt-dark-color">Color de módulos (oscuro)</label>
+                <div class="color-row">
+                  <input id="opt-dark-color" type="color" value="#0F172A">
+                </div>
+              </div>
+              <div class="field">
+                <label for="opt-light-color">Color de fondo (zona tranquila)</label>
+                <div class="color-row">
+                  <input id="opt-light-color" type="color" value="#FFFFFF">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="panel-card qr-preview-panel" aria-labelledby="preview-heading">
+            <h2 id="preview-heading" class="panel-title">Vista Previa y Auditoría Óptica</h2>
+            <p id="qr-live-status" class="panel-sub" aria-live="polite">Inicializando motor vectorial ISO/IEC 18004...</p>
+
+            <div id="qr-parts-bar" class="parts-bar hidden" role="group" aria-label="Selector de partes de secuencia QR"></div>
+
+            <div id="qr-stage" class="qr-stage" role="region" aria-label="Lienzo del código QR generado"></div>
+
+            <div id="contrast-audit" class="contrast-banner" data-state="ok" aria-live="polite">
+              Contraste 17.85:1 · WCAG AAA · Óptimo para lectura óptica
+            </div>
+
+            <div class="btn-row">
+              <button id="btn-download-svg" type="button" class="btn btn-primary">Descargar SVG</button>
+              <button id="btn-download-png" type="button" class="btn btn-secondary">Descargar PNG</button>
+              <button id="btn-copy-payload" type="button" class="btn btn-secondary">Copiar texto</button>
+              <button id="btn-self-verify" type="button" class="btn btn-secondary">Verificar con jsQR</button>
+              <button id="btn-save-vault" type="button" class="btn btn-secondary">Cifrar en Bóveda</button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-block" aria-label="Herramientas de escaneo y esteganografía">
+      <div class="container dual-grid">
+        <div id="escaner" class="panel-card">
+          <h2 class="panel-title">Escáner y Reensamblador Local (jsQR)</h2>
+          <p class="panel-sub">Analiza capturas o fotografías directamente en memoria RAM sin subir archivos. Reconstruye automáticamente secuencias <code>[QRP i/N]</code> de hasta 5.000 caracteres.</p>
+          <div class="field">
+            <label for="scanner-file-input">Seleccionar imagen con código QR (PNG, JPEG, WebP)</label>
+            <input id="scanner-file-input" type="file" accept="image/*">
+          </div>
+          <div id="scanner-result" class="result-box" aria-live="polite">
+            Esperando imagen para decodificación óptica local...
+          </div>
+        </div>
+
+        <div id="esteganografia" class="panel-card">
+          <h2 class="panel-title">Laboratorio de Esteganografía LSB + CRC32</h2>
+          <p class="panel-sub">Oculta cargas útiles o prompts de hasta 5.000 caracteres en los bits menos significativos RGB con suma de verificación IEEE 802.3.</p>
+          <div class="field">
+            <label for="stego-secret-input">Carga útil secreta (hasta 5.000 caracteres)</label>
+            <textarea id="stego-secret-input" maxlength="5000" rows="3" placeholder="Escribe un mensaje o metadato de autenticidad para incrustar..."></textarea>
+          </div>
+          <div class="btn-row">
+            <button id="btn-stego-embed" type="button" class="btn btn-primary">Incrustar en RGBA</button>
+            <button id="btn-stego-extract" type="button" class="btn btn-secondary">Extraer y verificar CRC32</button>
+          </div>
+          <div id="stego-result" class="result-box" aria-live="polite">
+            Cabecera binaria <code>QRP1</code> + longitud uint32 + payload UTF-8 + CRC32 lista.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="boveda" class="section-block" aria-labelledby="vault-heading">
+      <div class="container">
+        <div class="panel-card">
+          <h2 id="vault-heading" class="panel-title">Bóveda Local Cifrada (Web Crypto AES-256-GCM + SHA-256)</h2>
+          <p id="vault-status" class="panel-sub" aria-live="polite">
+            Cada entrada se cifra en el navegador con una clave aleatoria de 256 bits e IV único de 96 bits. Ejercita en un clic los derechos de portabilidad (Art. 20 RGPD) y supresión (Art. 17 RGPD).
+          </p>
+          <div class="btn-row">
+            <button id="btn-export-vault" type="button" class="btn btn-secondary">Exportar JSON (Art. 20 RGPD)</button>
+            <button id="btn-wipe-vault" type="button" class="btn btn-danger">Suprimir bóveda y clave (Art. 17 RGPD)</button>
+          </div>
+          <ul id="vault-list" class="vault-list" aria-label="Registros cifrados localmente"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="webgl-lab" class="section-block" aria-labelledby="webgl-heading">
+      <div class="container">
+        <div class="panel-card webgl-lab" data-webgl-lab>
+          <div class="webgl-meta">
+            <div>
+              <h2 id="webgl-heading" class="panel-title">Campo Óptico GPU WebGL</h2>
+              <p class="panel-sub" style="margin-bottom:0">Simulación procedural GLSL de patrones de alineación ISO/IEC 18004 sincronizada con la paleta activa del estudio, con pausa automática fuera de pantalla y fallback Canvas 2D.</p>
+            </div>
+            <span class="status-badge" data-webgl-status aria-live="polite">Inicializando GPU...</span>
+          </div>
+          <div class="webgl-lab__stage">
+            <canvas class="webgl-lab__canvas" width="960" height="250" role="img" aria-label="Visualización generativa de matriz óptica QR acelerada por GPU"></canvas>
+            <noscript>
+              <p class="result-box">La visualización GPU requiere JavaScript; la documentación legal y técnica permanece accesible.</p>
+            </noscript>
+          </div>
+          <div class="btn-row">
+            <button type="button" class="btn btn-secondary" data-webgl-toggle aria-pressed="false">
+              Pausar simulación GPU
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <p><strong>QR Pro Enterprise</strong> · Procesamiento local ISO/IEC 18004 · Licencia MIT</p>
+      <nav aria-label="Enlaces legales y de accesibilidad" class="footer-links">
+        <a href="privacidad.html">Privacidad</a>
+        <a href="accesibilidad.html">Accesibilidad</a>
+        <a href="aviso-legal.html">Aviso legal</a>
+        <a href="terminos.html">Términos</a>
+        <a href="cookies.html">Cookies</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="hero.js" defer></script>
+  <script type="module" src="assets/qr-studio.js"></script>
+</body>
+</html>

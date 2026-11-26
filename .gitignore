@@ -1,12 +1,86 @@
-# Generated OS metadata, Python bytecode, and HTML reports
+# Dependencias y entornos locales
+node_modules/
+.venv/
+venv/
+
+# Salidas de compilación y cachés
+.expo/
+dist/
+build/
+web-build/
+.next/
+out/
+.cache/
+.turbo/
+.metro-health-check*
+expo-env.d.ts
+*.tsbuildinfo
+
+# Cobertura y reportes generados
+coverage/
+htmlcov/
+playwright-report/
+test-results/
+audit-report.json
+
+# Carpetas nativas generadas (Expo prebuild)
+/ios
+/android
+.kotlin/
+*.orig.*
+
+# Python bytecode y cachés
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Metadatos de sistema operativo e IDEs
 .DS_Store
 ._*
 __MACOSX/
 Thumbs.db
 Desktop.ini
 desktop.ini
-__pycache__/
-*.pyc
-*.pyo
-htmlcov/
-playwright-report/
+.vscode/
+.idea/
+.cursor/
+.aider*
+*.swp
+*.swo
+*~
+
+# Logs y paquetes temporales
+logs
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+*.tgz
+*.tar.gz
+.webdev/
+.project-config.json
+expo-qr-code.png
+
+# Secretos y credenciales (nunca versionar)
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.p8
+*.p12
+*.pfx
+*.keystore
+*.jks
+*.mobileprovision
+id_rsa
+id_ed25519
+.secrets
+secrets.json
+.pypirc
+.user_env
