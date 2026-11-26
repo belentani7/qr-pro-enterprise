@@ -1,0 +1,14 @@
+title = "QR Pro Enterprise Gitleaks Configuration"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Identificadores de espacio de nombres de almacenamiento local (no son claves ni secretos)"
+regexTarget = "secret"
+regexes = [
+  '''^qr_pro_enterprise_(?:vault|aes_key)_v2$''',
+  '''^@qr_pro_(?:preferences|device_key_v2|consent|history|favorites)$''',
+  '''^manus-runtime-user-info$''',
+  '''^app_session_token$''',
+]

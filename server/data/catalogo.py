@@ -1,0 +1,2 @@
+REPO = "server"
+FAMILIA = "educación"

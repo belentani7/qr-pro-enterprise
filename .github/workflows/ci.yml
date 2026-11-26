@@ -1,0 +1,38 @@
+name: CI (pnpm)
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: corepack enable && corepack prepare pnpm@9.12.0 --activate
+      - run: pnpm install --no-frozen-lockfile
+      - name: Doctor & Catalog
+        run: pnpm run doctor
+      - name: TypeScript Strict Check
+        run: pnpm run check
+      - name: ESLint
+        run: pnpm run lint
+      - name: Automated Tests (Unit + E2E + WCAG 2.1 AA)
+        run: pnpm test
+      - name: Production Build & Technical Audit
+        run: pnpm run build && pnpm run audit
