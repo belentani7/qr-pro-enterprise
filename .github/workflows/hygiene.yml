@@ -18,10 +18,13 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
+        with:
+          config-path: .gitleaks.toml
         env:
-
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   conflict-markers:
     runs-on: ubuntu-latest
@@ -32,9 +35,6 @@ jobs:
         shell: bash
         run: |
           fail=0
-          # The previous pathspec ('*.:("*') matched no file, so this gate could
-          # never fail. Scan the tracked tree explicitly and treat a broken
-          # search as a failure instead of a clean result.
           scan() {
             label="$1"; pattern="$2"; shift 2
             code=0
@@ -50,7 +50,6 @@ jobs:
             fi
           }
           scan "apertura/cierre" '^(<<<<<<< |>>>>>>> )' .
-          # A bare equals line is a setext heading in Markdown, not a conflict.
           scan "separador" '^=======$' . ':(exclude)*.md' ':(exclude)*.MD'
           rm -f markers.txt
           exit "$fail"

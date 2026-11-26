@@ -568,7 +568,7 @@ export function initQRStudio(): void {
     entries.unshift({
       id: `qr_${Date.now()}`,
       mode: currentMode,
-      label: payload.slice(0, 36) + (payload.length > 36 ? "…" : ""),
+      label: `Registro cifrado #${entries.length + 1}`,
       payload: "[CIFRADO AES-256-GCM]",
       sha256,
       cipher,

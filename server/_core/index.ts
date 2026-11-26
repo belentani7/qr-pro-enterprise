@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import rateLimit from "express-rate-limit";
 import fs from "fs";
 import { createServer, type Server } from "http";
 import net from "net";
@@ -34,23 +35,55 @@ async function findAvailablePort(startPort = 3000): Promise<number> {
   throw new Error(`No available port found starting from ${startPort}`);
 }
 
+function buildAllowedOrigins(): Set<string> {
+  const allowed = new Set<string>([
+    "http://localhost:3000",
+    "http://localhost:8081",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:8081",
+    "https://qr-pro-enterprise.vercel.app",
+  ]);
+  const extra = process.env.CORS_ALLOWED_ORIGINS;
+  if (extra) {
+    for (const item of extra.split(",")) {
+      const clean = item.trim();
+      if (clean) allowed.add(clean);
+    }
+  }
+  return allowed;
+}
+
 export function createApp(): express.Express {
   const app = express();
+  const allowedOrigins = buildAllowedOrigins();
 
   app.disable("x-powered-by");
 
+  const globalLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    limit: 180,
+    standardHeaders: "draft-7",
+    legacyHeaders: false,
+  });
+  app.use(globalLimiter);
+
   app.use((req, res, next) => {
-    const origin = req.headers.origin;
-    if (origin) {
-      res.header("Access-Control-Allow-Origin", origin);
-      res.header("Vary", "Origin");
+    const reqOrigin = req.headers.origin;
+    if (typeof reqOrigin === "string") {
+      for (const trustedOrigin of allowedOrigins) {
+        if (trustedOrigin === reqOrigin) {
+          res.header("Access-Control-Allow-Origin", trustedOrigin);
+          res.header("Access-Control-Allow-Credentials", "true");
+          res.header("Vary", "Origin");
+          break;
+        }
+      }
     }
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
     res.header(
       "Access-Control-Allow-Headers",
       "Origin, X-Requested-With, Content-Type, Accept, Authorization"
     );
-    res.header("Access-Control-Allow-Credentials", "true");
     res.header("X-Content-Type-Options", "nosniff");
     res.header("Referrer-Policy", "strict-origin-when-cross-origin");
 
@@ -143,10 +176,10 @@ export function createApp(): express.Express {
   }
   app.use("/assets", express.static(path.join(rootDir, "assets")));
   app.use("/brand", express.static(path.join(rootDir, "brand")));
-  app.get("/hero.js", (_req, res) => {
+  app.get("/hero.js", globalLimiter, (_req, res) => {
     res.sendFile(path.join(rootDir, "hero.js"));
   });
-  app.get("/", (_req, res) => {
+  app.get("/", globalLimiter, (_req, res) => {
     const builtIndex = path.join(distPublicDir, "index.html");
     res.sendFile(fs.existsSync(builtIndex) ? builtIndex : path.join(rootDir, "index.html"));
   });
